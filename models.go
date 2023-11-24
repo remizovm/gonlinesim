@@ -1,17 +1,25 @@
 package gonlinesim
 
 type BaseResp struct {
-	Result string `json:"result"`
+	Response string `json:"response"`
+}
+
+type GetTariffsResp struct {
+	BaseResp
+	Country int    `json:"country"`
+	Page    int    `json:"page"`
+	End     bool   `json:"end"`
+	Filter  string `json:"filter"`
 }
 
 type GetBalanceResp struct {
 	BaseResp
-	Response string `json:"response"`
 	Balance  string `json:"balance"`
 	ZBalance string `json:"zbalance"`
 }
 
 type GetFreeListResponse struct {
+	BaseResp
 	Countries []struct {
 		PhoneCode int    `json:"country"`
 		Name      string `json:"country_text"`

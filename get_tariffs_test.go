@@ -9,8 +9,8 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-func TestGetBalance(t *testing.T) {
-	Convey("GetBalance method", t, func() {
+func TestTariffsBalance(t *testing.T) {
+	Convey("GetTariffs method", t, func() {
 		client := NewClient("")
 		httpmock.ActivateNonDefault(client.client.GetClient())
 		defer httpmock.Deactivate()
@@ -21,7 +21,7 @@ func TestGetBalance(t *testing.T) {
 		responder, err := httpmock.NewJsonResponder(http.StatusOK, fixture)
 		So(err, ShouldBeNil)
 		httpmock.RegisterResponder(http.MethodGet, url, responder)
-		resp, err := client.GetBalance(context.Background())
+		resp, err := client.GetTariffs(context.Background())
 		So(err, ShouldNotBeNil)
 		So(resp, ShouldBeNil)
 	})

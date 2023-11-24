@@ -6,18 +6,17 @@ import (
 	"net/http"
 )
 
-func (c *Client) GetBalance(ctx context.Context,
-	opts ...Option) (*GetBalanceResp, error) {
-	response := GetBalanceResp{}
-	req := c.client.R().SetResult(&response).
-		SetContext(ctx).SetQueryParam("apikey", c.apiKey)
+func (c Client) GetFreeList(ctx context.Context,
+	opts ...Option) (*GetFreeListResponse, error) {
+	response := GetFreeListResponse{}
+	req := c.client.R().SetResult(&response).SetContext(ctx)
 	for _, opt := range opts {
 		if opt == nil {
 			continue
 		}
 		opt(req)
 	}
-	resp, err := req.Get("/api/getBalance.php")
+	resp, err := req.Get("/api/getFreeList")
 	if err != nil {
 		return nil, err
 	}

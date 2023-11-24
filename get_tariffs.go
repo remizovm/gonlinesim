@@ -6,9 +6,9 @@ import (
 	"net/http"
 )
 
-func (c *Client) GetBalance(ctx context.Context,
-	opts ...Option) (*GetBalanceResp, error) {
-	response := GetBalanceResp{}
+func (c *Client) GetTariffs(ctx context.Context,
+	opts ...Option) (*GetTariffsResp, error) {
+	response := GetTariffsResp{}
 	req := c.client.R().SetResult(&response).
 		SetContext(ctx).SetQueryParam("apikey", c.apiKey)
 	for _, opt := range opts {
@@ -17,7 +17,7 @@ func (c *Client) GetBalance(ctx context.Context,
 		}
 		opt(req)
 	}
-	resp, err := req.Get("/api/getBalance.php")
+	resp, err := req.Get("/api/getTariffs.php")
 	if err != nil {
 		return nil, err
 	}

@@ -1,10 +1,7 @@
 package gonlinesim
 
 import (
-	"context"
 	"errors"
-	"fmt"
-	"net/http"
 )
 
 const (
@@ -28,19 +25,27 @@ var (
 	ErrLowBalance        = errors.New("low balance")
 )
 
-func (c Client) GetFreeList(ctx context.Context,
-	opts ...Option) (*GetFreeListResponse, error) {
-	response := GetFreeListResponse{}
-	req := c.client.R().SetResult(&response).SetContext(ctx)
-	for _, opt := range opts {
-		opt(req)
+func checkErr(val string) error {
+	switch val {
+	case "1":
+		return nil
+	case "ACCOUNT_BLOCKED":
+		return ErrAccountBlocked
+	case "ERROR_WRONG_KEY":
+		return ErrWrongKey
+	case "ERROR_NO_KEY":
+		return ErrNoKey
+	case "ERROR_NO_SERVICE":
+		return ErrNoService
+	case "REQUEST_NOT_FOUND":
+		return ErrRequestNotFound
+	case "API_ACCESS_DISABLED":
+		return ErrAPIAccessDisabled
+	case "API_ACCESS_IP":
+		return ErrAPIAccessIP
+	case "WARNING_LOW_BALANCE":
+		return ErrLowBalance
+	default:
+		return nil
 	}
-	resp, err := req.Get("/api/getFreeList")
-	if err != nil {
-		return nil, err
-	}
-	if resp.StatusCode() != http.StatusOK {
-		return nil, fmt.Errorf("bad status code %d", resp.StatusCode())
-	}
-	return &response, nil
 }
